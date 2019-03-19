@@ -11,49 +11,67 @@
 
 <body>
   <header></header>
-  <main id='main'></main>
+  <main>
+    <div id='main'></div>
+  </main>
   <footer></footer>
   <script>
-    keys = [['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'], ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'], ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',']]
-    keyUrls = JSON.parse(localStorage.getItem('keyUrls') || 'null')
-
+    var keys = [['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'], ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'], ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',']]
+    var keyUrls = JSON.parse(localStorage.getItem('keyUrls') || 'null')
     if (!keyUrls) {
       keyUrls = {}
     }
-
-    index = 0
-    while (index < keys.length) {
-      div = document.createElement('div')
+    for (var index = 0; index < keys.length; index++) {
+      var div = document.createElement('div')
       main.appendChild(div)
-      index2 = 0
-      while (index2 < keys[index].length) {
-        divwapper = document.createElement('div')
-        kbd = document.createElement('kbd')
-        kbd.textContent = keys[index][index2]
-        button = document.createElement('button')
+      for (var index2 = 0; index2 < keys[index].length; index2++) {
+        
+        var button = document.createElement('button')
         button.textContent = '编辑'
         button.id = keys[index][index2]
         button.onclick = function (event) {
-          id = event.target.id
-          input = prompt('请输入要前往的地址', keyUrls[id] || '')
+          var id = event.target.id
+          var input = prompt('请输入要前往的地址', keyUrls[id] || '')
           if (input != null) {
             keyUrls[id] = input
+            prevImg = event.target.nextSibling
+            console.log(prevImg)
+            prevImg.src = 'http://' + input + '/favicon.ico'
+            prevImg.onerror = function (img) {
+              img.target.src = '//i.ibb.co/wM8BK2c/error-3.png'
+            }
             localStorage.setItem('keyUrls', JSON.stringify(keyUrls))
           }
         }
-        kbd.appendChild(button)
+
+        var icon = document.createElement('img')
+        icon.src = 'http://' + keyUrls[keys[index][index2]] + '/favicon.ico'
+        icon.onerror = function (img) {
+          img.target.src = '//i.ibb.co/wM8BK2c/error-3.png'
+        }
+        
+        var mask = document.createElement('div')
+        mask.className = 'mask'
+        mask.appendChild(button)
+        mask.appendChild(icon)
+
+        var kbd = document.createElement('kbd')
+        kbd.textContent = keys[index][index2]
+        
+        var divwapper = document.createElement('div')
+        divwapper.appendChild(mask)
         divwapper.appendChild(kbd)
+
         div.appendChild(divwapper)
-        index2 = index2 + 1
       }
-      index = index + 1
     }
+
 
     //监听键盘按下
     document.onkeypress = function (event) {
-      key = event['key']
+      var key = event['key']
       if (keyUrls[key]) {
-        window.open(keyUrls[key], '_blank')
+        window.open('http://' + keyUrls[key], '_blank')
       } else {
         console.log('未设置按键')
       }

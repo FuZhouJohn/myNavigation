@@ -4,16 +4,23 @@
   font-family: "Microsoft YaHei", tahoma, arial, "Hiragino Sans GB", 宋体, sans-serif;
 }
 
+body {
+  height: 100vh;
+  background: rgb(65, 69, 80) url(./wall.jpg) no-repeat center center;
+}
+
 main {
-  background-color: rgb(65, 69, 80);
-  padding: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 main kbd {
   box-sizing: border-box;
   padding-top: 0.8em;
   padding-left: 1.8em;
-  width: 4em;
+  width: 3.6em;
   height: 4em;
   display: inline-block;
   position: relative;
@@ -22,62 +29,111 @@ main kbd {
   font-weight: bold;
 }
 
-main>div {
+#main {
+  border: 7px solid rgb(238, 242, 244);
+  border-radius: 13px;
+  padding: 2px;
+  background-color: rgb(65, 69, 80);
+  box-shadow: -1px 4px 22px 0px rgba(0, 0, 0, 0.75);
+}
+
+#main>div {
   display: flex;
   justify-content: center;
 }
 
-main>div>div {
+#main>div>div {
   display: flex;
   margin: 1.5px;
+  position: relative;
 }
 
-main>div:nth-child(1)>div {
+#main>div:nth-child(1)>div {
   background-color: rgb(127, 144, 152);
   padding: 3px 10px 12px;
   border-radius: 5px;
 }
 
-main>div:nth-child(1)>div>kbd {
+#main>div:nth-child(1)>div>kbd {
   background-color: rgb(153, 173, 184);
   border-radius: 5px;
   border: 1px solid rgb(199, 211, 218);
   color: #fff;
 }
 
-main>div:nth-child(2)>div {
+#main>div:nth-child(2)>div {
   background-color: rgb(148, 160, 167);
   padding: 3px 10px 12px;
   border-radius: 5px;
 }
 
-main>div:nth-child(2)>div>kbd {
+#main>div:nth-child(2)>div>kbd {
   background-color: rgb(183, 197, 205);
   border-radius: 5px;
   border: 1px solid rgb(199, 211, 218);
   color: #fff;
 }
 
-main>div:nth-child(3)>div {
+#main>div:nth-child(3)>div {
   background-color: rgb(196, 198, 199);
   padding: 3px 10px 12px;
   border-radius: 5px;
 }
 
-main>div:nth-child(3)>div>kbd {
+#main>div:nth-child(3)>div>kbd {
   background-color: rgb(239, 241, 242);
   border-radius: 5px;
   border: 1px solid rgb(199, 211, 218);
-  color:rgb(183, 197, 205);
+  color: rgb(183, 197, 205);
 }
 
-main kbd>button {
+#main .mask {
   position: absolute;
+  left: 0;
   right: 0;
+  top: 0;
   bottom: 0;
+  z-index: 2;
+  background-color: rgba(65, 69, 80, .5);
   display: none;
 }
 
-main kbd:hover>button {
+#main>div>div:hover .mask {
+  display: block;
+}
+
+#main .mask>img {
+  width: 1.6em;
+  height: 1.6em;
+  position: absolute;
+  left: calc(50% - 0.8em);
+  top: 0.7em;
+  display: none;
+}
+
+#main .mask>button {
+  position: absolute;
+  left: calc(50% - 1.5em);
+  bottom: 0.5em;
+  display: none;
+  width: 3em;
+  height: 2em;
+  border-width: 0px;
+  border-radius: 3px;
+  background: rgb(192, 194, 196);
+  cursor: pointer;
+  outline: none;
+  color: rgb(65, 69, 80);
+  font-weight: bold;
+}
+#main .mask>button:hover {
+  background-color: rgb(65, 69, 80);
+  color:#fff;
+}
+#main>div>div:hover .mask>button {
   display: inline-block;
+}
+
+#main>div>div:hover .mask>img {
+  display: block;
 }
