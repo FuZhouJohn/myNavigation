@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel='stylesheet' href='./style.css'>
+</head>
+
+<body>
+  <header></header>
+  <main id='main'></main>
+  <footer></footer>
+  <script>
+    keys = [['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'], ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'], ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',']]
+    keyUrls = JSON.parse(localStorage.getItem('keyUrls') || 'null')
+
+    if (!keyUrls) {
+      keyUrls = {}
+    }
+
+    index = 0
+    while (index < keys.length) {
+      div = document.createElement('div')
+      main.appendChild(div)
+      index2 = 0
+      while (index2 < keys[index].length) {
+        divwapper = document.createElement('div')
+        kbd = document.createElement('kbd')
+        kbd.textContent = keys[index][index2]
+        button = document.createElement('button')
+        button.textContent = '编辑'
+        button.id = keys[index][index2]
+        button.onclick = function (event) {
+          id = event.target.id
+          input = prompt('请输入要前往的地址', keyUrls[id] || '')
+          if (input != null) {
+            keyUrls[id] = input
+            localStorage.setItem('keyUrls', JSON.stringify(keyUrls))
+          }
+        }
+        kbd.appendChild(button)
+        divwapper.appendChild(kbd)
+        div.appendChild(divwapper)
+        index2 = index2 + 1
+      }
+      index = index + 1
+    }
+
+    //监听键盘按下
+    document.onkeypress = function (event) {
+      key = event['key']
+      if (keyUrls[key]) {
+        window.open(keyUrls[key], '_blank')
+      } else {
+        console.log('未设置按键')
+      }
+    }
+  </script>
+</body>
+
+</html>

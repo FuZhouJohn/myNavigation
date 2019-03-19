@@ -1,0 +1,83 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Microsoft YaHei", tahoma, arial, "Hiragino Sans GB", 宋体, sans-serif;
+}
+
+main {
+  background-color: rgb(65, 69, 80);
+  padding: 100px;
+}
+
+main kbd {
+  box-sizing: border-box;
+  padding-top: 0.8em;
+  padding-left: 1.8em;
+  width: 4em;
+  height: 4em;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  user-select: none;
+  font-weight: bold;
+}
+
+main>div {
+  display: flex;
+  justify-content: center;
+}
+
+main>div>div {
+  display: flex;
+  margin: 1.5px;
+}
+
+main>div:nth-child(1)>div {
+  background-color: rgb(127, 144, 152);
+  padding: 3px 10px 12px;
+  border-radius: 5px;
+}
+
+main>div:nth-child(1)>div>kbd {
+  background-color: rgb(153, 173, 184);
+  border-radius: 5px;
+  border: 1px solid rgb(199, 211, 218);
+  color: #fff;
+}
+
+main>div:nth-child(2)>div {
+  background-color: rgb(148, 160, 167);
+  padding: 3px 10px 12px;
+  border-radius: 5px;
+}
+
+main>div:nth-child(2)>div>kbd {
+  background-color: rgb(183, 197, 205);
+  border-radius: 5px;
+  border: 1px solid rgb(199, 211, 218);
+  color: #fff;
+}
+
+main>div:nth-child(3)>div {
+  background-color: rgb(196, 198, 199);
+  padding: 3px 10px 12px;
+  border-radius: 5px;
+}
+
+main>div:nth-child(3)>div>kbd {
+  background-color: rgb(239, 241, 242);
+  border-radius: 5px;
+  border: 1px solid rgb(199, 211, 218);
+  color:rgb(183, 197, 205);
+}
+
+main kbd>button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: none;
+}
+
+main kbd:hover>button {
+  display: inline-block;
+}
