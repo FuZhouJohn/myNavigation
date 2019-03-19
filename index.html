@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <title>Document</title>
   <link rel='stylesheet' href='./style.css'>
 </head>
@@ -16,64 +17,104 @@
   </main>
   <footer></footer>
   <script>
-    var keys = [['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'], ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'], ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',']]
-    var keyUrls = JSON.parse(localStorage.getItem('keyUrls') || 'null')
-    if (!keyUrls) {
-      keyUrls = {}
-    }
-    for (var index = 0; index < keys.length; index++) {
-      var div = document.createElement('div')
-      main.appendChild(div)
-      for (var index2 = 0; index2 < keys[index].length; index2++) {
-        
-        var button = document.createElement('button')
-        button.textContent = '编辑'
-        button.id = keys[index][index2]
-        button.onclick = function (event) {
-          var id = event.target.id
-          var input = prompt('请输入要前往的地址', keyUrls[id] || '')
-          if (input != null) {
-            keyUrls[id] = input
-            prevImg = event.target.nextSibling
-            console.log(prevImg)
-            prevImg.src = 'http://' + input + '/favicon.ico'
-            prevImg.onerror = function (img) {
-              img.target.src = '//i.ibb.co/wM8BK2c/error-3.png'
-            }
-            localStorage.setItem('keyUrls', JSON.stringify(keyUrls))
-          }
-        }
+    // 1.数据初始化
+    var keyData = init()
+    var keys = keyData['keys']
+    var keyUrls = keyData['keyUrls']
 
-        var icon = document.createElement('img')
-        icon.src = 'http://' + keyUrls[keys[index][index2]] + '/favicon.ico'
-        icon.onerror = function (img) {
-          img.target.src = '//i.ibb.co/wM8BK2c/error-3.png'
-        }
-        
-        var mask = document.createElement('div')
-        mask.className = 'mask'
-        mask.appendChild(button)
-        mask.appendChild(icon)
 
-        var kbd = document.createElement('kbd')
-        kbd.textContent = keys[index][index2]
-        
-        var divwapper = document.createElement('div')
-        divwapper.appendChild(mask)
-        divwapper.appendChild(kbd)
+    // 2.生成键盘
+    generateKeyboard(keys)
 
-        div.appendChild(divwapper)
+
+    //3. 监听键盘按下
+    listenKeyPress()
+    
+
+    // 下面为工具函数
+    function init() {
+      var keys = [['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'], ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'], ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',']]
+      var keyUrls = JSON.parse(localStorage.getItem('keyUrls') || 'null')
+      if (!keyUrls) {
+        keyUrls = {}
+      }
+      return {
+        keys,
+        keyUrls
       }
     }
 
+    function cTag(name, attributes) {
+      var tag = document.createElement(name)
+      if (attributes) {
+        for (var key in attributes) {
+          tag[key] = attributes[key]
+        }
+      }
+      return tag
+    }
 
-    //监听键盘按下
-    document.onkeypress = function (event) {
-      var key = event['key']
-      if (keyUrls[key]) {
-        window.open('http://' + keyUrls[key], '_blank')
-      } else {
-        console.log('未设置按键')
+    function createButton(idValue) {
+      var button = cTag('button', { textContent: '编辑', id: idValue })
+      button.onclick = function (event) {
+        var id = event.target.id
+        var input = prompt('请输入要前往的地址', keyUrls[id] || '')
+        if (input != null) {
+          keyUrls[id] = input
+          prevImg = event.target.nextSibling
+          console.log(prevImg)
+          prevImg.src = 'http://' + input + '/favicon.ico'
+          prevImg.onerror = function (img) {
+            img.target.src = '//i.ibb.co/wM8BK2c/error-3.png'
+          }
+          localStorage.setItem('keyUrls', JSON.stringify(keyUrls))
+        }
+      }
+      return button
+    }
+
+    function createImg(keyName) {
+      var icon = cTag('img', { src: 'http://' + keyUrls[keyName] + '/favicon.ico' })
+      icon.onerror = function (img) {
+        img.target.src = '//i.ibb.co/wM8BK2c/error-3.png'
+      }
+      return icon
+    }
+
+    function generateKeyboard(keys) {
+      for (var index = 0; index < keys.length; index++) {
+        var div = cTag('div')
+        for (var index2 = 0; index2 < keys[index].length; index2++) {
+          var keyName = keys[index][index2]
+
+          var button = createButton(keyName)
+
+          var icon = createImg(keyName)
+
+          var mask = cTag('div', { className: 'mask' })
+          mask.appendChild(button)
+          mask.appendChild(icon)
+
+          var kbd = cTag('kbd', { textContent: keys[index][index2] })
+
+          var divwapper = cTag('div')
+          divwapper.appendChild(mask)
+          divwapper.appendChild(kbd)
+
+          div.appendChild(divwapper)
+        }
+        main.appendChild(div)
+      }
+    }
+    
+    function listenKeyPress() {
+      document.onkeypress = function (event) {
+        var key = event['key']
+        if (keyUrls[key]) {
+          window.open('http://' + keyUrls[key], '_blank')
+        } else {
+          console.log('未设置按键')
+        }
       }
     }
   </script>
